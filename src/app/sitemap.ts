@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { TOOLS, CATEGORIES } from '@/constants/tools';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://toolomni.com';
+    const baseUrl = 'https://toolomni.co';
 
     // Static pages
     const staticPages = [

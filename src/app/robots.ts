@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://toolomni.com/sitemap.xml',
+        sitemap: 'https://toolomni.co/sitemap.xml',
     };
 }
