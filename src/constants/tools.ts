@@ -260,7 +260,12 @@ export const TOOLS: Tool[] = [
                 'Secure: Your documents are processed in-memory and not stored.',
                 'Universal Accessibility: Works on any device with a browser.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Will my Word document look like the PDF?', answer: 'Yes, our engine is designed to preserve layouts, fonts, and images as accurately as possible.' },
+            { question: 'Is it safe to upload confidential PDFs?', answer: 'Absolutely. We process files in-memory and delete them automatically after 1 hour.' },
+            { question: 'Do I need Microsoft Word installed?', answer: 'No, you can convert and download the file without having any software installed.' }
+        ]
     },
     {
         id: 'word-to-pdf',
@@ -289,7 +294,12 @@ export const TOOLS: Tool[] = [
                 'Private & Secure: We respect your privacy and don\'t store your files.',
                 'Free Forever: No limits on the number of conversions.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Will the PDF maintain my Word formatting?', answer: 'Yes, our converter ensures that the layout, spacing, and styles of your Word document are perfectly preserved.' },
+            { question: 'Can I convert large Word files?', answer: 'Yes, we support large document conversions without any artificial limits.' },
+            { question: 'Is it free to use?', answer: '100% free. No registration or payment is required.' }
+        ]
     },
     {
         id: 'background-remover',
@@ -318,7 +328,12 @@ export const TOOLS: Tool[] = [
                 'Free to Use: Process images without any subscription.',
                 'Secure: Your images are never stored on our servers.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Is the background removal automatic?', answer: 'Yes, our AI identifies the subject and removes the background automatically in seconds.' },
+            { question: 'Can I remove backgrounds from complex images?', answer: 'Our AI is trained on millions of images and handles hair, fur, and complex edges very well.' },
+            { question: 'What file format do I get?', answer: 'The result is a high-quality transparent PNG file.' }
+        ]
     },
     {
         id: 'compress-image',
@@ -347,7 +362,12 @@ export const TOOLS: Tool[] = [
                 'Multiple Formats: Supports JPG, PNG, and WEBP.',
                 'Free Forever: No limits on usage.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Does compressing images lose quality?', answer: 'We use smart compression that reduces file size by up to 80% without noticeable quality loss.' },
+            { question: 'What image formats are supported?', answer: 'You can compress JPG, PNG, and WEBP images.' },
+            { question: 'Can I compress multiple images at once?', answer: 'Yes, you can upload and process multiple images in one go.' }
+        ]
     },
     {
         id: 'jpg-to-png',
@@ -375,7 +395,12 @@ export const TOOLS: Tool[] = [
                 'Secure: Your files are processed locally.',
                 'Free: No limits or watermarks.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Why should I convert JPG to PNG?', answer: 'PNG supports transparency and lossless compression, making it better for logos and web graphics.' },
+            { question: 'Is the conversion free?', answer: 'Yes, always free with no watermarks.' },
+            { question: 'Is it safe?', answer: 'Your images are processed securely and deleted automatically.' }
+        ]
     },
     {
         id: 'png-to-jpg',
@@ -403,7 +428,12 @@ export const TOOLS: Tool[] = [
                 'Secure Processing: No files are stored on our servers.',
                 'Free Forever: Unlimited conversions.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'What are the benefits of JPG over PNG?', answer: 'JPG files are much smaller in size, which makes them perfect for websites and sharing via email.' },
+            { question: 'Will I lose quality?', answer: 'We use high-quality conversion settings to ensure the resulting JPG looks great.' },
+            { question: 'Can I convert multiple files?', answer: 'Yes, you can upload as many files as you need.' }
+        ]
     },
     {
         id: 'upscale-image',
@@ -431,7 +461,12 @@ export const TOOLS: Tool[] = [
                 'No Quality Loss: Professional-grade upscaling algorithm.',
                 'Free & Secure: Processed entirely in your browser.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'How much does it increase the resolution?', answer: 'Our AI upscaler currently doubles the dimensions (2x) of your image.' },
+            { question: 'Is the result blurry?', answer: 'No, the AI generates new pixels to ensure the result is sharp and clear, not just stretched.' },
+            { question: 'Can I upscale faces and portraits?', answer: 'Yes, the model is optimized for a variety of subjects, including people and landscapes.' }
+        ]
     },
     {
         id: 'qr-generator',
@@ -459,7 +494,12 @@ export const TOOLS: Tool[] = [
                 'Works for Everything: URLs, Text, Emails, and more.',
                 'Free Forever: No hidden fees or sign-ups.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Are these QR codes permanent?', answer: 'Yes, the QR codes generated do not expire and will work forever.' },
+            { question: 'Can I customize the QR code?', answer: 'Our current version focus on high-reliability standard QR codes that work with all scanners.' },
+            { question: 'Is there a limit on scans?', answer: 'No, there are no limits on how many times your QR code can be scanned.' }
+        ]
     },
     {
         id: 'ai-writer',
@@ -487,7 +527,12 @@ export const TOOLS: Tool[] = [
                 'Instant Output: Get results in milliseconds.',
                 'Free Access: No subscription required.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Can the AI write long articles?', answer: 'Yes, you can provide detailed prompts to generate comprehensive content.' },
+            { question: 'Is the content unique?', answer: 'Yes, our AI generates original content based on your unique instructions.' },
+            { question: 'Can I choose the tone of voice?', answer: 'Yes, you can specify the tone (e.g., Professional, Friendly, Creative) in your prompt.' }
+        ]
     },
     {
         id: 'grammar-checker',
@@ -515,7 +560,12 @@ export const TOOLS: Tool[] = [
                 'Multilingual Support: Works with various dialects.',
                 'Secure: Your text is processed and never stored.'
             ]
-        }
+        },
+        faqs: [
+            { question: 'Does it check for plagiarism?', answer: 'This tool specifically focuses on grammar, spelling, and style improvements.' },
+            { question: 'Is it better than basic spell checkers?', answer: 'Yes, our AI understands context and can fix advanced grammatical errors and flow issues.' },
+            { question: 'What languages are supported?', answer: 'Currently, we offer industry-leading support for English, with more languages coming soon.' }
+        ]
     }
 ];
 
