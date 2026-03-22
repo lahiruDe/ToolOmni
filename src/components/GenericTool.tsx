@@ -62,6 +62,7 @@ export function GenericTool({ tool, hideFaq }: GenericToolProps) {
     const [compositeResult, setCompositeResult] = useState<string | null>(null);
     const [upscaleScale, setUpscaleScale] = useState<2 | 4>(2);
     const [sliderPos, setSliderPos] = useState(tool.id === 'compress-image' ? 80 : 50);
+    const [colorIntensity, setColorIntensity] = useState(100);
     const [isImageCompressing, setIsImageCompressing] = useState(false);
     
     // Resize Image State
@@ -206,10 +207,14 @@ export function GenericTool({ tool, hideFaq }: GenericToolProps) {
                 setActiveCropRatio(undefined);
                 setCropOutputFormat(f.type === 'image/png' ? 'image/png' : 'image/jpeg');
                 setStage('IMAGE_CROP_CHOICE');
-            } else if (tool.id === 'background-remover' || tool.id === 'pdf-to-word' || tool.id === 'word-to-pdf' || tool.id === 'jpg-to-png' || tool.id === 'png-to-jpg') {
+            } else if (tool.id === 'background-remover' || tool.id === 'colorize-photo' || tool.id === 'pdf-to-word' || tool.id === 'word-to-pdf' || tool.id === 'jpg-to-png' || tool.id === 'png-to-jpg') {
                 setSelectedFiles([newFiles[0]]);
                 setStage('PROCESSING');
                 handleProcess([newFiles[0]]);
+                if (tool.id === 'colorize-photo') {
+                    setSliderPos(50);
+                    setColorIntensity(100);
+                }
             } else if (tool.id === 'split-pdf') {
                 setSelectedFiles([newFiles[0]]);
                 generatePageThumbnails(newFiles[0]);
@@ -1527,41 +1532,82 @@ export function GenericTool({ tool, hideFaq }: GenericToolProps) {
                                 <div className="mb-10 relative group max-w-lg mx-auto">
                                     <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-2xl relative p-8">
                                         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'conic-gradient(#ccc 0.25turn, #fff 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #fff 0.75turn)', backgroundSize: '20px 20px' }} />
-                                        {tool.id === 'upscale-image' ? (
-                                            <div 
-                                                className="relative z-10 w-full h-full min-h-[300px] flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-xl overflow-hidden group/compare cursor-ew-resize select-none touch-none"
-                                                onMouseMove={handleSliderMove}
-                                                onTouchMove={handleSliderMove}
-                                                onMouseDown={handleSliderMove}
-                                            >
-                                                <div className="absolute inset-0 flex pointer-events-none">
-                                                    {/* Original Image (Before) - Pixelated to show the contrast of upscaling */}
-                                                    <img src={URL.createObjectURL(selectedFiles[0])} className="w-full h-full object-contain" style={{ imageRendering: 'pixelated' }} alt="Original" />
-                                                    
-                                                    {/* Upscaled Image (After) */}
-                                                    <div className="absolute inset-0 z-20 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${sliderPos}%)` }}>
-                                                        <img src={compositeResult || (result ? URL.createObjectURL(new Blob([result as any], { type: 'image/png' })) : '')} className="w-full h-full object-contain" alt="Upscaled" />
-                                                    </div>
-                                                </div>
-                                                
-                                                {/* Interactive Slider Line */}
+                                        {(tool.id === 'upscale-image' || tool.id === 'colorize-photo') ? (
+                                            <>
                                                 <div 
-                                                    className="absolute top-0 bottom-0 z-30 w-0.5 bg-white shadow-xl pointer-events-none"
-                                                    style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                                                    className="relative z-10 w-full h-full min-h-[300px] flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-xl overflow-hidden group/compare cursor-ew-resize select-none touch-none"
+                                                    onMouseMove={handleSliderMove}
+                                                    onTouchMove={handleSliderMove}
+                                                    onMouseDown={handleSliderMove}
                                                 >
-                                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-[0_0_15px_rgba(0,0,0,0.3)] flex items-center justify-center border-4 border-blue-600">
-                                                        <div className="flex gap-0.5">
-                                                            <div className="w-0.5 h-3 bg-blue-600 rounded-full" />
-                                                            <div className="w-0.5 h-3 bg-blue-600 rounded-full" />
+                                                    <div className="absolute inset-0 flex pointer-events-none">
+                                                        {/* Original Image (Before) */}
+                                                        <img 
+                                                            src={URL.createObjectURL(selectedFiles[0])} 
+                                                            className="w-full h-full object-contain" 
+                                                            style={tool.id === 'upscale-image' ? { imageRendering: 'pixelated' } : {}} 
+                                                            alt="Original" 
+                                                        />
+                                                        
+                                                        {/* Processed Image (After) */}
+                                                        <div className="absolute inset-0 z-20 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${sliderPos}%)` }}>
+                                                            <img 
+                                                                src={compositeResult || (result ? URL.createObjectURL(new Blob([result as any], { type: 'image/png' })) : '')} 
+                                                                className="w-full h-full object-contain" 
+                                                                style={tool.id === 'colorize-photo' ? { filter: `saturate(${colorIntensity}%)` } : {}}
+                                                                alt="Result" 
+                                                            />
                                                         </div>
                                                     </div>
+                                                    
+                                                    {/* Interactive Slider Line */}
+                                                    <div 
+                                                        className="absolute top-0 bottom-0 z-30 w-0.5 bg-white shadow-xl pointer-events-none"
+                                                        style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                                                    >
+                                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-[0_0_15px_rgba(0,0,0,0.3)] flex items-center justify-center border-4 border-blue-600">
+                                                            <div className="flex gap-0.5">
+                                                                <div className="w-0.5 h-3 bg-blue-600 rounded-full" />
+                                                                <div className="w-0.5 h-3 bg-blue-600 rounded-full" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="absolute bottom-4 left-4 z-40 px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest pointer-events-none">Before</div>
+                                                    <div className="absolute bottom-4 right-4 z-40 px-3 py-1 bg-blue-600/80 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest pointer-events-none">After</div>
                                                 </div>
                                                 
-                                                <div className="absolute bottom-4 left-4 z-40 px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest pointer-events-none">Before</div>
-                                                <div className="absolute bottom-4 right-4 z-40 px-3 py-1 bg-blue-600/80 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest pointer-events-none">After</div>
-                                            </div>
+                                                {tool.id === 'colorize-photo' && (
+                                                    <div className="mt-8 p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 text-left">
+                                                        <div className="flex items-center gap-2 mb-4">
+                                                            <Sparkles className="w-4 h-4 text-blue-600" />
+                                                            <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Color Intensity</h3>
+                                                        </div>
+                                                        <div className="max-w-xl mx-auto">
+                                                            <div className="flex justify-between items-center mb-4">
+                                                                <span className="text-[10px] font-bold text-zinc-400">Natural</span>
+                                                                <span className="text-sm font-black px-4 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg">{colorIntensity}% Saturation</span>
+                                                                <span className="text-[10px] font-bold text-zinc-400">Vibrant</span>
+                                                            </div>
+                                                            <input 
+                                                                type="range" 
+                                                                min="0" 
+                                                                max="200" 
+                                                                value={colorIntensity} 
+                                                                onChange={(e) => setColorIntensity(Number(e.target.value))}
+                                                                className="w-full h-3 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none outline-none cursor-pointer accent-blue-600"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </>
                                         ) : (
-                                            <img src={tiktokData?.cover || compositeResult || (result ? URL.createObjectURL(new Blob([result as any], { type: 'image/png' })) : '')} className="relative z-10 w-full h-auto max-h-[400px] object-contain mx-auto rounded-xl" alt="Result" />
+                                            <img 
+                                                src={tiktokData?.cover || compositeResult || (result ? URL.createObjectURL(new Blob([result as any], { type: 'image/png' })) : '')} 
+                                                className="relative z-10 w-full h-auto max-h-[400px] object-contain mx-auto rounded-xl" 
+                                                style={tool.id === 'colorize-photo' ? { filter: `saturate(${colorIntensity}%)` } : {}}
+                                                alt="Result" 
+                                            />
                                         )}
                                     </div>
                                     
